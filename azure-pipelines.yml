@@ -1,0 +1,22 @@
+# Azure Pipelines configuration for Node.js application
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '14.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'Install dependencies'
+
+- task: AzureWebApp@1
+  inputs:
+    azureSubscription: 'AzureSubscription'
+    appName: 'OnMedical'
+    package: '$(Build.ArtifactStagingDirectory)'
